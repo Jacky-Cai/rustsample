@@ -4,6 +4,9 @@ use std::fs::File;
 
 use rand::prelude::*;
 use rand::thread_rng;
+use std::io::Read;
+use std::io;
+use std::cmp::max;
 
 mod fa;
 
@@ -27,17 +30,17 @@ struct User {
 
 fn main() {
     let path = "/tmp/xx.txt";
-    let f = File::open(path);
+    let mut file = File::open(path);
+    if let Ok(mut f) = file {
+        let mut s = String::new();
+        f.read_to_string(&mut s);
+        println!("content: {} ", s);
+    }
 
-    let f = match f {
-        Ok(file ) => file,
-        Err(error) => {
-            panic!("error to open file :{}, {:?}", path, error)
-        }
-    };
-
-    println!("meta {:?}", f.metadata().unwrap());
-    println!("meta {:?}", f.metadata());
+    let vv:Vec<i32> = (1..100).collect();
+    let largest = vv.iter().fold(std::i32::MIN, |a,b| a.max(*b));
+    println!("largest num is: {} ", largest);
+    println!("smallest i32 is: {} ", std::i32::MIN);
 
     use crate::fa::print_aaa;
     crate::fa::bbb::print_bbb();
